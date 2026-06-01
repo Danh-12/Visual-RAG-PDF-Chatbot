@@ -1,0 +1,50 @@
+=== PAGE 1 ===
+ 
+ 
+ 
+ 
+BỘ GIÁO DỤC VÀ ĐÀO TẠO 
+TRƯỜNG ĐẠI HỌC KINH TẾ - TÀI CHÍNH THÀNH PHỐ HỒ CHÍ MINH 
+ 
+ 
+ 
+BÁO CÁO CUỐI KỲ 
+CÔNG NGHỆ JAVA 
+ĐỀ TÀI: ONLINE APPOINTMENT BOOKING SYSTEM 
+ 
+ 
+            
+ 
+ 
+ 
+ 
+ 
+ 
+Thành phố Hồ Chí Minh, tháng 06 năm 2025 
+ 
+
+=== PAGE 4 ===
+ 
+ 
+ 
+LỜI CAM ĐOAN 
+Nhóm chúng em xin cam kết rằng bài báo cáo cuối kỳ về đề tài “Online 
+Appointment Booking System” là sản phẩm nghiên cứu và thực hiện độc lập của toàn 
+nhóm, dưới sự hướng dẫn của giảng viên bộ môn. Bài báo cáo được thực hiện tại Trường 
+Đại học Kinh tế - Tài chính TP. Hồ Chí Minh, trong khoảng thời gian từ ngày 05 tháng 
+05 năm 2025 đến ngày 06 tháng 6 năm 2025. 
+Chúng em xin cam đoan rằng toàn bộ nội dung, dữ liệu, phân tích và kết luận 
+trong báo cáo đều là kết quả từ quá trình học tập, nghiên cứu nghiêm túc và làm việc 
+nhóm hiệu quả. Tất cả các thông tin trích dẫn từ tài liệu tham khảo, nguồn bên ngoài 
+đều đã được ghi rõ và tuân thủ đúng quy định về trích dẫn học thuật. Báo cáo không sao 
+chép nội dung từ bất kỳ nguồn nào mà không ghi rõ nguồn gốc và không vi phạm các 
+quy định về bản quyền. 
+Chúng em hoàn toàn chịu trách nhiệm về tính trung thực và nguyên bản của nội 
+dung báo cáo này. 
+Xin chân thành cảm ơn! 
+Người thực hiện 
+Huỳnh Minh Hiếu 
+Danh Tuyên Nhật 
+Nguyễn Thế Huấn 
+Nguyễn Thành Danh 
+Lê Ngọc Vy 
