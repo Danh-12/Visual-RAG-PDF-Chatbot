@@ -1,9 +1,13 @@
 import sys
 import time
+import logging
+
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(errors='replace')
 if hasattr(sys.stderr, 'reconfigure'):
     sys.stderr.reconfigure(errors='replace')
+
+logger = logging.getLogger(__name__)
 
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
@@ -27,9 +31,9 @@ class GeminiEmbeddings(Embeddings):
                 contents="test"
             )
             self.dim = len(response.embeddings[0].values)
-            print("Detected embedding dimension:", self.dim)
+            logger.info("Detected embedding dimension: %s", self.dim)
         except Exception as e:
-            print("Failed to fetch embedding dimension:", e)
+            logger.error("Failed to fetch embedding dimension: %s", e)
             self.dim = 3072 # default fallback dimension for models/gemini-embedding-001 in google-genai
 
     def _zero_vector(self):
@@ -42,7 +46,7 @@ class GeminiEmbeddings(Embeddings):
             self.dim = len(values)
 
         if len(values) != self.dim:
-            print(f"Embedding size error: {len(values)} != {self.dim}")
+            logger.error("Embedding size error: %s != %s", len(values), self.dim)
             return self._zero_vector()
 
         return values
@@ -75,17 +79,17 @@ class GeminiEmbeddings(Embeddings):
                 except Exception as e:
                     if "429" in str(e) or "503" in str(e):
                         sleep_time = 3 * (attempt + 1)
-                        print(f"Embedding batch rate limited. Retrying in {sleep_time}s...")
+                        logger.warning("Embedding batch rate limited. Retrying in %ss...", sleep_time)
                         time.sleep(sleep_time)
                     else:
-                        print(f"Embedding batch API error: {e}")
+                        logger.error("Embedding batch API error: %s", e)
                         break
 
             if response:
                 for emb in response.embeddings:
                     embeddings.append(self._normalize_vector(emb.values))
             else:
-                print("Embedding batch failed after retries, using zero vectors.")
+                logger.error("Embedding batch failed after retries, using zero vectors.")
                 for _ in batch:
                     embeddings.append(self._zero_vector())
 
@@ -107,10 +111,10 @@ class GeminiEmbeddings(Embeddings):
             except Exception as e:
                 if "429" in str(e) or "503" in str(e):
                     sleep_time = 2 * (attempt + 1)
-                    print(f"Query embedding rate limited. Retrying in {sleep_time}s...")
+                    logger.warning("Query embedding rate limited. Retrying in %ss...", sleep_time)
                     time.sleep(sleep_time)
                 else:
-                    print(f"Query embedding API error: {e}")
+                    logger.error("Query embedding API error: %s", e)
                     break
 
         if response:
@@ -151,11 +155,11 @@ def generate_image_description(image_bytes, image_ext, model_name=None):
         except Exception as e:
             if "429" in str(e) or "503" in str(e):
                 if attempt == 4:
-                    print(f"Image analysis error (max attempts exceeded): {e}")
+                    logger.error("Image analysis error (max attempts exceeded): %s", e)
                     return ""
                 # Chờ đợi với exponential backoff: 3s, 6s, 12s, 24s...
                 sleep_time = 3 * (attempt + 1)
-                print(f"API rate limited or connection error. Retrying in {sleep_time}s...")
+                logger.warning("API rate limited or connection error. Retrying in %ss...", sleep_time)
                 try:
                     import streamlit as st
                     st.toast(f"⚠️ API mô hình bị nghẽn (429/503) khi phân tích hình ảnh. Thử lại sau {sleep_time} giây...", icon="⏳")
@@ -163,7 +167,7 @@ def generate_image_description(image_bytes, image_ext, model_name=None):
                     pass
                 time.sleep(sleep_time)
             else:
-                print(f"Image analysis error by Gemini: {e}")
+                logger.error("Image analysis error by Gemini: %s", e)
                 return ""
     return ""
 
@@ -193,6 +197,22 @@ def create_vector_db(documents):
     db = FAISS.from_documents(documents, embeddings_model)
     return db
 
+def save_vector_db(db, folder_path="faiss_index"):
+    """
+    Lưu Vector DB FAISS xuống đĩa cục bộ.
+    """
+    db.save_local(folder_path)
+
+def load_vector_db(folder_path="faiss_index"):
+    """
+    Tải Vector DB FAISS từ đĩa cục bộ.
+    """
+    from langchain_community.embeddings import HuggingFaceEmbeddings
+    from langchain_community.vectorstores import FAISS
+    embeddings_model = HuggingFaceEmbeddings()
+    db = FAISS.load_local(folder_path, embeddings_model, allow_dangerous_deserialization=True)
+    return db
+
 # ===== RETRIEVE =====
 def retrieve_docs(query, db):
     # 1. Perform semantic search (increase k to 7 to improve recall)
@@ -220,7 +240,7 @@ def retrieve_docs(query, db):
                     for m in matches:
                         unique_captions.add(m)
     except Exception as e:
-        print("Error counting dynamic stats:", e)
+        logger.error("Error counting dynamic stats: %s", e)
 
     # Nếu không quét được nhãn chú thích nào bằng chữ, mặc định lấy số lượng ảnh vật lý để tránh hiển thị sai lệch
     total_captioned_figures = len(unique_captions) if unique_captions else total_images
@@ -299,7 +319,7 @@ def retrieve_docs(query, db):
                     if not any(td.page_content == doc.page_content for td in targeted_image_docs):
                         targeted_image_docs.append(doc)
     except Exception as e:
-        print("Error extracting context pages from docstore:", e)
+        logger.error("Error extracting context pages from docstore: %s", e)
         
     # Combine: System Metadata is ALWAYS first to provide global counts and stats
     final_docs = [system_metadata_doc]
@@ -335,18 +355,17 @@ def retrieve_docs(query, db):
     else:
         final_docs = final_docs[:10]
 
-    print("="*50)
-    print("QUERY:", query)
-    print("Is Global Image Query:", is_global_image_query)
-    print("Detected page numbers:", page_numbers)
-    print("Original Similarity Chunks:", len(docs))
-    print("Targeted Image Chunks added:", len(targeted_image_docs))
-    print("Global Cover Pages (1-2) Chunks added:", len(global_docs))
-    print("Total Context Chunks:", len(final_docs))
+    logger.info("QUERY: %s", query)
+    logger.info("Is Global Image Query: %s", is_global_image_query)
+    logger.info("Detected page numbers: %s", page_numbers)
+    logger.info("Original Similarity Chunks: %s", len(docs))
+    logger.info("Targeted Image Chunks added: %s", len(targeted_image_docs))
+    logger.info("Global Cover Pages (1-2) Chunks added: %s", len(global_docs))
+    logger.info("Total Context Chunks: %s", len(final_docs))
 
     for i, d in enumerate(final_docs):
-        print(f"[{i}] Page:", d.metadata.get("page"), "| Source:", d.metadata.get("source"))
-        print(d.page_content[:150].replace('\n', ' '))
+        logger.info("[%s] Page: %s | Source: %s", i, d.metadata.get("page"), d.metadata.get("source"))
+        logger.info(d.page_content[:150].replace('\n', ' '))
 
     return final_docs
 # ===== GENERATE ANSWER WITH CITATIONS & ANTI-HALLUCINATION =====

@@ -1,5 +1,9 @@
 import fitz  # PyMuPDF
 from langchain_core.documents import Document
+import logging
+
+logger = logging.getLogger(__name__)
+
 def extract_documents(doc):
     """
     Trích xuất văn bản từ fitz.Document và trả về danh sách LangChain Document
@@ -48,6 +52,6 @@ def extract_images(doc):
                     "xref": xref
                 })
             except Exception as e:
-                print(f"Image extraction error at page {page_num + 1}, xref {xref}: {e}")
+                logger.error(f"Image extraction error at page {page_num + 1}, xref {xref}: {e}")
                 
     return images

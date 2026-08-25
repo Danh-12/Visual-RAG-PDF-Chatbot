@@ -7,3 +7,5 @@ temp.pdf
 *.doc
 *.docx
 *.pdf
+.env
+faiss_index/

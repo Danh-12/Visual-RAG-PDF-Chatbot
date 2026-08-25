@@ -1,0 +1,92 @@
+[
+  {
+    "id": 1,
+    "query": "Đề tài báo cáo cuối kỳ của nhóm là gì?",
+    "expected_answer": "Online Appointment Booking System (Hệ thống đặt lịch hẹn trực tuyến).",
+    "target_pages": [1, 4]
+  },
+  {
+    "id": 2,
+    "query": "Báo cáo này viết cho môn học nào?",
+    "expected_answer": "Công nghệ Java.",
+    "target_pages": [1]
+  },
+  {
+    "id": 3,
+    "query": "Thời gian hoàn thành báo cáo này là khi nào?",
+    "expected_answer": "Tháng 06 năm 2025 (hoặc thực hiện từ ngày 05/05/2025 đến ngày 06/06/2025).",
+    "target_pages": [1, 4]
+  },
+  {
+    "id": 4,
+    "query": "Báo cáo được thực hiện tại trường đại học nào?",
+    "expected_answer": "Trường Đại học Kinh tế - Tài chính Thành phố Hồ Chí Minh (UEF).",
+    "target_pages": [1, 4]
+  },
+  {
+    "id": 5,
+    "query": "Liệt kê danh sách tất cả thành viên thực hiện đề tài này?",
+    "expected_answer": "Huỳnh Minh Hiếu, Danh Tuyên Nhật, Nguyễn Thế Huấn, Nguyễn Thành Danh, Lê Ngọc Vy.",
+    "target_pages": [4]
+  },
+  {
+    "id": 6,
+    "query": "Thành viên Nguyễn Thành Danh tham gia làm đề tài gì?",
+    "expected_answer": "Tham gia nhóm thực hiện đề tài báo cáo cuối kỳ 'Online Appointment Booking System'.",
+    "target_pages": [4]
+  },
+  {
+    "id": 7,
+    "query": "Cam đoan của nhóm tác giả về tính trung thực của báo cáo như thế nào?",
+    "expected_answer": "Nhóm cam kết báo cáo cuối kỳ đề tài này là sản phẩm nghiên cứu và thực hiện độc lập, không sao chép nội dung trái quy định và hoàn toàn chịu trách nhiệm về tính trung thực.",
+    "target_pages": [4]
+  },
+  {
+    "id": 8,
+    "query": "Ai chịu trách nhiệm hướng dẫn nhóm thực hiện báo cáo này?",
+    "expected_answer": "Giảng viên bộ môn Công nghệ Java (chưa nêu rõ tên cụ thể nhưng ghi là giảng viên bộ môn hướng dẫn).",
+    "target_pages": [4]
+  },
+  {
+    "id": 9,
+    "query": "Trang bìa của báo cáo ghi thông tin gì về nơi đào tạo?",
+    "expected_answer": "Bộ Giáo dục và Đào tạo, Trường Đại học Kinh tế - Tài chính Thành phố Hồ Chí Minh.",
+    "target_pages": [1]
+  },
+  {
+    "id": 10,
+    "query": "Báo cáo cuối kỳ này có bao nhiêu thành viên thực hiện?",
+    "expected_answer": "5 thành viên bao gồm Huỳnh Minh Hiếu, Danh Tuyên Nhật, Nguyễn Thế Huấn, Nguyễn Thành Danh, và Lê Ngọc Vy.",
+    "target_pages": [4]
+  },
+  {
+    "id": 11,
+    "query": "Khoảng thời gian thực hiện báo cáo cụ thể được ghi nhận là từ ngày nào đến ngày nào?",
+    "expected_answer": "Từ ngày 05 tháng 05 năm 2025 đến ngày 06 tháng 6 năm 2025.",
+    "target_pages": [4]
+  },
+  {
+    "id": 12,
+    "query": "Đề tài được nộp vào tháng mấy năm nào?",
+    "expected_answer": "Tháng 06 năm 2025.",
+    "target_pages": [1]
+  },
+  {
+    "id": 13,
+    "query": "Báo cáo được thực hiện độc lập hay sao chép?",
+    "expected_answer": "Báo cáo là sản phẩm nghiên cứu và thực hiện độc lập của toàn nhóm.",
+    "target_pages": [4]
+  },
+  {
+    "id": 14,
+    "query": "Lê Ngọc Vy có phải là một trong những người thực hiện báo cáo không?",
+    "expected_answer": "Có, Lê Ngọc Vy là một trong 5 người thực hiện báo cáo cuối kỳ này.",
+    "target_pages": [4]
+  },
+  {
+    "id": 15,
+    "query": "Báo cáo cuối kỳ có nói về việc tuân thủ quy định trích dẫn học thuật không?",
+    "expected_answer": "Có, báo cáo cam đoan tất cả thông tin trích dẫn đều ghi rõ nguồn gốc và tuân thủ đúng quy định về trích dẫn học thuật.",
+    "target_pages": [4]
+  }
+]
